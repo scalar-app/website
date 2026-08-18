@@ -28,7 +28,8 @@ const ogImage = publicFileExists('og.png') ? new URL(withBase('/og.png'), Astro.
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#080808" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="icon" href={withBase('/favicon.png')} type="image/png" sizes="64x64" />
+    <link rel="apple-touch-icon" href={withBase('/icon-192.png')} />
     <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={siteName} />
@@ -36,7 +37,8 @@ const ogImage = publicFileExists('og.png') ? new URL(withBase('/og.png'), Astro.
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     {ogImage && <meta property="og:image" content={ogImage} />}
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="generator" content={Astro.generator} />

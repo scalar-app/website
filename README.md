@@ -32,7 +32,7 @@ src/lib/integrations.ts      the single source of integration phases and honest 
 src/lib/links.ts             withBase() and GitHub URLs
 src/styles/tokens.css        copy of the scalar-app/ui tokens (do not edit here)
 src/styles/global.css        Tailwind theme mapped to tokens, base styles, a few utilities
-public/                      favicon.svg (placeholder mark), robots.txt, logo slot
+public/                      logo, generated icons, og image, robots.txt
 ```
 
 ## Content rules
@@ -43,7 +43,7 @@ public/                      favicon.svg (placeholder mark), robots.txt, logo sl
 
 ## Logo
 
-Place the Scalar logo at `public/scalar.png`. The header renders it automatically when the file exists at build time and shows the text wordmark otherwise. `public/favicon.svg` is a neutral placeholder mark until the real logo is available. Add `public/og.png` for a social preview image; it is picked up the same way.
+`public/scalar.png` is the source logo (yellow S mark on black, 1254px). Derived assets are generated from it and committed: `scalar-mark.png` (transparent mark for the header), `favicon.png`, `icon-192.png`, `icon-512.png`, `og.png`. To regenerate after a logo change, run a small sharp script (Astro ships sharp) that trims the source, pads it with its own background color and resizes; the header and OpenGraph tags pick the files up automatically when they exist at build time.
 
 ## Design tokens
 
