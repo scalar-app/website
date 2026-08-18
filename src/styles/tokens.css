@@ -1,0 +1,60 @@
+/* Copied from scalar-app/ui. Do not edit here. */
+:root {
+  --sc-color-background: #080808;
+  --sc-color-surface: #101010;
+  --sc-color-surface-raised: #161616;
+  --sc-color-border: #242424;
+  --sc-color-text-primary: #f5f5f3;
+  --sc-color-text-secondary: #9a9a94;
+  --sc-color-text-muted: #666662;
+  --sc-color-yellow: #ffd600;
+  --sc-color-yellow-foreground: #080808;
+  --sc-color-danger: #ff5c5c;
+  --sc-color-success: #4ade80;
+  --sc-color-warning: #ffb020;
+  --sc-color-info: #7dd3fc;
+  --sc-space-0: 0px;
+  --sc-space-1: 4px;
+  --sc-space-2: 8px;
+  --sc-space-3: 12px;
+  --sc-space-4: 16px;
+  --sc-space-6: 24px;
+  --sc-space-8: 32px;
+  --sc-space-12: 48px;
+  --sc-space-16: 64px;
+  --sc-radius-sm: 4px;
+  --sc-radius-md: 6px;
+  --sc-radius-lg: 8px;
+  --sc-radius-xl: 12px;
+  --sc-radius-full: 9999px;
+  --sc-font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --sc-font-mono:
+    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  --sc-font-size-xs: 12px;
+  --sc-font-size-sm: 13px;
+  --sc-font-size-md: 14px;
+  --sc-font-size-lg: 16px;
+  --sc-font-size-xl: 20px;
+  --sc-font-size-2xl: 24px;
+  --sc-font-size-3xl: 32px;
+  --sc-line-height-tight: 1.2;
+  --sc-line-height-snug: 1.35;
+  --sc-line-height-normal: 1.5;
+  --sc-line-height-relaxed: 1.65;
+  --sc-motion-fast: 120ms;
+  --sc-motion-base: 200ms;
+  --sc-motion-slow: 320ms;
+  --sc-ease: cubic-bezier(0.2, 0, 0, 1);
+  --sc-z-base: 0;
+  --sc-z-raised: 10;
+  --sc-z-sticky: 100;
+  --sc-z-overlay: 1000;
+  --sc-z-dialog: 1100;
+  --sc-z-tooltip: 1200;
+  --sc-focus-ring-width: 2px;
+  --sc-focus-ring-color: #ffd600;
+  --sc-focus-ring-offset: 2px;
+  --sc-focus-ring: 2px solid #ffd600;
+}

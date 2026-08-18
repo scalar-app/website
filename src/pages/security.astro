@@ -1,0 +1,56 @@
+---
+import Page from '../layouts/Page.astro';
+import { github } from '../lib/links';
+---
+
+<Page
+  title="Security"
+  description="How Scalar approaches security, and how to report a vulnerability."
+  path="/security"
+  eyebrow="Security"
+  lede="Scalar holds OAuth tokens for your most important accounts and can act on your behalf. Security is treated as architecture, not cleanup."
+>
+  <h2>Reporting a vulnerability</h2>
+  <p>
+    Please report privately through GitHub Security Advisories on the affected repository. Do not
+    open a public issue. The full policy, response targets and safe harbour terms are in the
+    <a href={github.security}>security policy</a>.
+  </p>
+
+  <h2>What the design commits to</h2>
+  <ul>
+    <li>
+      Sessions and sign-in links are random tokens stored only as hashes. A leaked database does not
+      yield usable sessions.
+    </li>
+    <li>OAuth refresh tokens are encrypted at rest and isolated behind a credential service.</li>
+    <li>Provider secrets never reach clients. Tokens are never logged.</li>
+    <li>
+      Every request establishes who is asking, which workspace owns the resource, and whether that
+      user may touch it. Authorization is enforced in the API, never only in the interface.
+    </li>
+    <li>
+      Minimum OAuth scopes, requested when the corresponding feature is enabled, and explained in
+      plain language.
+    </li>
+    <li>
+      AI actions run through explicit tools with their own authorization and audit trail. The model
+      never touches the database, and content from email or other external sources cannot change
+      what Scalar does.
+    </li>
+    <li>
+      Anything that writes to another system requires your approval unless you have deliberately
+      turned on that automation.
+    </li>
+    <li>
+      Changes to auth, tokens, permissions or AI actions get a dedicated security review before
+      merge.
+    </li>
+  </ul>
+
+  <h2>Supply chain</h2>
+  <p>
+    Dependabot, dependency review, secret scanning and CodeQL run across the organisation. Package
+    installs enforce a minimum release age so brand new versions cannot land in a build unnoticed.
+  </p>
+</Page>

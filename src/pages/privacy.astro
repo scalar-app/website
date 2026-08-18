@@ -1,0 +1,55 @@
+---
+import Page from '../layouts/Page.astro';
+import { github } from '../lib/links';
+---
+
+<Page
+  title="Privacy"
+  description="How Scalar treats the email, calendars, coursework and files it connects to."
+  path="/privacy"
+  eyebrow="Privacy"
+  lede="Scalar reads some of the most sensitive data a person has. These are the principles the software is built around. This is a statement of design intent, not yet a legal privacy policy; one will be published before any hosted service exists."
+>
+  <h2>Principles</h2>
+  <ul>
+    <li>Collect only what a feature needs. Scopes are requested per feature, not up front.</li>
+    <li>Store only what is required to be useful, and say plainly how long it is kept.</li>
+    <li>
+      Minimise model context. When AI features are used, the model receives the smallest slice of
+      data needed for the request, never a dump of your account.
+    </li>
+    <li>No training on private content by default.</li>
+    <li>
+      Every integration can be disconnected. Disconnecting revokes access at the provider, deletes
+      stored credentials, stops syncing, and asks whether imported data should be kept or removed.
+    </li>
+    <li>
+      You can delete your account, and you will be able to export your data in open formats (JSON,
+      CSV, ICS).
+    </li>
+    <li>External content is data, not instructions. An email cannot tell Scalar what to do.</li>
+    <li>
+      Telemetry is restrained, never contains private content, and can be fully disabled in
+      self-hosted builds.
+    </li>
+  </ul>
+
+  <h2>Credentials</h2>
+  <p>
+    OAuth refresh tokens are encrypted at rest and only ever handled by a dedicated credential
+    service inside the API. Tokens are never logged and never sent to clients.
+  </p>
+
+  <h2>Self-hosting</h2>
+  <p>
+    Because Scalar is open source and self-hostable, you can run the whole system on infrastructure
+    you control. Self-hosted builds are the same code as any hosted service; nothing is held back.
+  </p>
+
+  <h2>Questions</h2>
+  <p>
+    Privacy design is discussed in the open. Raise questions in
+    <a href={github.discussions}>Discussions</a>, and report vulnerabilities through the
+    <a href={github.security}>security policy</a>.
+  </p>
+</Page>

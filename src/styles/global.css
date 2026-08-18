@@ -1,0 +1,226 @@
+@import './tokens.css';
+@import 'tailwindcss';
+
+@theme {
+  --color-*: initial;
+  --color-bg: var(--sc-color-background);
+  --color-surface: var(--sc-color-surface);
+  --color-raised: var(--sc-color-surface-raised);
+  --color-border: var(--sc-color-border);
+  --color-primary: var(--sc-color-text-primary);
+  --color-secondary: var(--sc-color-text-secondary);
+  --color-muted: var(--sc-color-text-muted);
+  --color-yellow: var(--sc-color-yellow);
+  --color-yellow-fg: var(--sc-color-yellow-foreground);
+  --color-danger: var(--sc-color-danger);
+  --color-success: var(--sc-color-success);
+  --color-warning: var(--sc-color-warning);
+  --color-info: var(--sc-color-info);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-sans: var(--sc-font-sans);
+  --font-mono: var(--sc-font-mono);
+
+  --radius-sm: var(--sc-radius-sm);
+  --radius-md: var(--sc-radius-md);
+  --radius-lg: var(--sc-radius-lg);
+  --radius-xl: var(--sc-radius-xl);
+
+  --ease-sc: var(--sc-ease);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--sc-color-background);
+    color: var(--sc-color-text-primary);
+    font-family: var(--sc-font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100dvh;
+    line-height: var(--sc-line-height-normal);
+  }
+
+  ::selection {
+    background-color: var(--sc-color-yellow);
+    color: var(--sc-color-yellow-foreground);
+  }
+
+  :focus-visible {
+    outline: var(--sc-focus-ring);
+    outline-offset: var(--sc-focus-ring-offset);
+    border-radius: var(--sc-radius-sm);
+  }
+
+  a {
+    text-underline-offset: 3px;
+    transition: color var(--sc-motion-fast) var(--sc-ease);
+  }
+
+  code,
+  kbd,
+  pre {
+    font-family: var(--sc-font-mono);
+    font-size: 0.9em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-sc {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: var(--sc-space-6);
+  }
+
+  .prose-sc {
+    color: var(--sc-color-text-secondary);
+    max-width: 44rem;
+  }
+  .prose-sc h2 {
+    color: var(--sc-color-text-primary);
+    font-size: var(--sc-font-size-xl);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-top: var(--sc-space-12);
+    margin-bottom: var(--sc-space-3);
+  }
+  .prose-sc h3 {
+    color: var(--sc-color-text-primary);
+    font-size: var(--sc-font-size-lg);
+    font-weight: 500;
+    margin-top: var(--sc-space-8);
+    margin-bottom: var(--sc-space-2);
+  }
+  .prose-sc p,
+  .prose-sc ul,
+  .prose-sc ol {
+    margin-bottom: var(--sc-space-4);
+  }
+  .prose-sc ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .prose-sc li {
+    margin-bottom: var(--sc-space-1);
+  }
+  .prose-sc a {
+    color: var(--sc-color-text-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--sc-color-border);
+  }
+  .prose-sc a:hover {
+    text-decoration-color: var(--sc-color-yellow);
+  }
+  .prose-sc strong {
+    color: var(--sc-color-text-primary);
+    font-weight: 500;
+  }
+
+  .eyebrow {
+    font-family: var(--sc-font-mono);
+    font-size: var(--sc-font-size-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sc-color-text-muted);
+  }
+
+  .status-light {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--sc-color-text-muted);
+    flex: none;
+  }
+  .status-light[data-tone='urgent'] {
+    background: var(--sc-color-yellow);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sc-color-yellow) 18%, transparent);
+  }
+  .status-light[data-tone='ok'] {
+    background: var(--sc-color-success);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-space-2);
+    height: 40px;
+    padding-inline: var(--sc-space-4);
+    border-radius: var(--sc-radius-md);
+    font-size: var(--sc-font-size-md);
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid var(--sc-color-border);
+    color: var(--sc-color-text-primary);
+    background: transparent;
+    transition:
+      background-color var(--sc-motion-fast) var(--sc-ease),
+      border-color var(--sc-motion-fast) var(--sc-ease),
+      color var(--sc-motion-fast) var(--sc-ease);
+  }
+  .btn:hover {
+    border-color: var(--sc-color-text-muted);
+    background: var(--sc-color-surface);
+  }
+  .btn-primary {
+    background: var(--sc-color-yellow);
+    border-color: var(--sc-color-yellow);
+    color: var(--sc-color-yellow-foreground);
+  }
+  .btn-primary:hover {
+    background: #f2cb00;
+    border-color: #f2cb00;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    padding-inline: var(--sc-space-2);
+    border-radius: var(--sc-radius-sm);
+    border: 1px solid var(--sc-color-border);
+    font-family: var(--sc-font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--sc-color-text-secondary);
+    white-space: nowrap;
+  }
+  .tag[data-status='in-progress'] {
+    color: var(--sc-color-yellow);
+    border-color: color-mix(in srgb, var(--sc-color-yellow) 40%, transparent);
+  }
+}
+
+@layer utilities {
+  .grain::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-size: 160px 160px;
+  }
+}

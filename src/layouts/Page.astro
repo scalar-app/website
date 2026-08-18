@@ -1,0 +1,25 @@
+---
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  eyebrow?: string;
+  lede?: string;
+}
+const { title, description, path, eyebrow, lede } = Astro.props;
+---
+
+<Base title={title} description={description} path={path}>
+  <article class="container-sc pt-20 pb-10 md:pt-28">
+    <header class="max-w-2xl">
+      {eyebrow && <p class="eyebrow mb-3">{eyebrow}</p>}
+      <h1 class="text-3xl font-medium tracking-tight text-primary md:text-5xl">{title}</h1>
+      {lede && <p class="mt-5 text-lg text-secondary">{lede}</p>}
+    </header>
+    <div class="prose-sc mt-6">
+      <slot />
+    </div>
+  </article>
+</Base>

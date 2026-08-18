@@ -1,0 +1,70 @@
+---
+import { github, withBase } from '../lib/links';
+import { publicFileExists } from '../lib/public-assets';
+
+const hasLogo = publicFileExists('scalar.png');
+const current = Astro.url.pathname;
+
+const nav = [
+  { label: 'Product', href: '/#product' },
+  { label: 'Integrations', href: '/integrations' },
+  { label: 'Docs', href: '/docs' },
+  { label: 'Download', href: '/download' },
+];
+
+function isActive(href: string): boolean {
+  if (href.startsWith('/#')) return false;
+  const target = withBase(href).replace(/\/$/, '');
+  return current.replace(/\/$/, '') === target;
+}
+---
+
+<header class="sticky top-0 z-[100] border-b border-border bg-bg/85 backdrop-blur-sm">
+  <div class="container-sc flex h-14 items-center justify-between gap-6">
+    <a
+      href={withBase('/')}
+      class="flex items-center gap-2.5 text-primary no-underline"
+      aria-label="Scalar home"
+    >
+      {
+        hasLogo && (
+          <img
+            src={withBase('/scalar.png')}
+            alt=""
+            width="22"
+            height="22"
+            class="h-[22px] w-[22px]"
+          />
+        )
+      }
+      <span class="text-[15px] font-semibold tracking-tight">Scalar</span>
+    </a>
+
+    <nav aria-label="Primary">
+      <ul class="flex items-center gap-1 text-sm">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={withBase(item.href)}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+                class="rounded-md px-3 py-1.5 text-secondary no-underline hover:text-primary aria-[current=page]:text-primary"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a
+            href={github.org}
+            class="rounded-md px-3 py-1.5 text-secondary no-underline hover:text-primary"
+            rel="noopener"
+          >
+            GitHub<span class="sr-only"> (opens scalar-app organization)</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,68 @@
+---
+import Page from '../layouts/Page.astro';
+import { github } from '../lib/links';
+
+const platforms = [
+  {
+    name: 'Web',
+    status: 'In development',
+    body: 'The primary application. Runs in any modern browser. Source in scalar-app/web.',
+    href: `${github.org}/web`,
+  },
+  {
+    name: 'macOS, Windows, Linux',
+    status: 'Planned',
+    body: 'A native shell (Tauri) around the same interface, with a global shortcut, tray and background sync.',
+    href: null,
+  },
+  {
+    name: 'iOS and Android',
+    status: 'Planned',
+    body: 'Built for capture, Today, Inbox and approving suggested actions, not a shrunken desktop.',
+    href: null,
+  },
+];
+---
+
+<Page
+  title="Download"
+  description="Where to get Scalar for web, desktop and mobile, and what is available today."
+  path="/download"
+  eyebrow="Download"
+  lede="Scalar is early. There are no packaged releases yet. Here is what exists, what is planned, and how to run it yourself now."
+>
+  <ul class="not-prose mt-10 grid gap-px overflow-hidden rounded-lg border border-border bg-border">
+    {
+      platforms.map((p) => (
+        <li class="flex flex-col gap-2 bg-surface p-6 sm:flex-row sm:items-start sm:justify-between">
+          <div class="max-w-xl">
+            <h2 class="text-sm font-medium text-primary">{p.name}</h2>
+            <p class="mt-1 text-sm text-secondary">{p.body}</p>
+            {p.href && (
+              <a href={p.href} class="mt-2 inline-block text-sm text-primary" rel="noopener">
+                Source on GitHub
+              </a>
+            )}
+          </div>
+          <span class="shrink-0 text-xs text-muted">{p.status}</span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <h2>Run it yourself today</h2>
+  <p>
+    Scalar is self-hostable by design. A working local environment needs Node 24, pnpm and Docker,
+    and takes a few minutes: clone <code>api</code>, <code>ui</code>, <code>sdk</code> and
+    <code>web</code> side by side, start PostgreSQL and Redis with the compose file in
+    <code>api</code>, run migrations, then start the API and the web app. Each repository README has
+    the exact commands. Sign in works with a magic link that is shown on screen in development
+    because email delivery is not built yet.
+  </p>
+
+  <h2>Releases</h2>
+  <p>
+    Packaged builds will be published under <a href={github.releases}>GitHub Releases</a> with semantic
+    versions and changelogs. Until then, the main branches are the releases.
+  </p>
+</Page>

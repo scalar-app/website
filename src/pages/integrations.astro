@@ -1,0 +1,76 @@
+---
+import Page from '../layouts/Page.astro';
+import { github } from '../lib/links';
+import { phases, statusLabel } from '../lib/integrations';
+---
+
+<Page
+  title="Integrations"
+  description="Which services Scalar connects to, in what order, and what each one will sync."
+  path="/integrations"
+  eyebrow="Integrations"
+  lede="Scalar is only useful when it can see the systems that already hold your obligations. This is the order they are being built in and what each one will actually read or write. Nothing on this page ships yet."
+>
+  {
+    phases.map((phase) => (
+      <section id={phase.id} class="not-prose mt-12 scroll-mt-20 first:mt-10">
+        <h2 class="text-xl font-medium tracking-tight text-primary">{phase.label}</h2>
+        <p class="mt-2 max-w-2xl text-sm text-secondary">{phase.summary}</p>
+        <ul class="mt-6 grid gap-px overflow-hidden rounded-lg border border-border bg-border md:grid-cols-2">
+          {phase.integrations.map((integration) => (
+            <li class="bg-surface p-6">
+              <div class="flex items-center justify-between gap-4">
+                <h3 class="text-sm font-medium text-primary">{integration.name}</h3>
+                <span class="flex items-center gap-2 text-xs text-muted">
+                  <span
+                    class="status-light"
+                    data-tone={integration.status === 'in-progress' ? 'urgent' : undefined}
+                    aria-hidden="true"
+                  />
+                  {statusLabel[integration.status]}
+                </span>
+              </div>
+              <ul class="mt-3 space-y-1.5 text-sm text-secondary">
+                {integration.syncs.map((line) => (
+                  <li class="flex gap-2">
+                    <span aria-hidden="true" class="text-muted">
+                      ·
+                    </span>
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+
+  <h2>Principles</h2>
+  <ul>
+    <li>
+      Minimum scopes. Scalar asks for read access first and requests write permission only when you
+      turn on a feature that needs it.
+    </li>
+    <li>
+      Provenance. Every imported item keeps a link back to where it came from, so you can always
+      open the original.
+    </li>
+    <li>
+      Reversible. Disconnecting a service revokes access, deletes stored credentials, stops syncing,
+      and lets you decide whether imported data stays or goes.
+    </li>
+    <li>
+      Nothing silent. Anything that writes to another system (send, move, delete) is shown to you
+      first unless you have explicitly enabled that automation.
+    </li>
+  </ul>
+
+  <h2>Want one that is not listed?</h2>
+  <p>
+    Open an <a href={`${github.org}/.github/issues/new/choose`}>integration request</a> with a link to
+    the provider's API documentation. Community connectors will be possible once the first-party ones
+    have settled the interfaces.
+  </p>
+</Page>

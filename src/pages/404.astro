@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { withBase } from '../lib/links';
+---
+
+<Base title="Not found" description="This page does not exist." path="/404">
+  <section class="container-sc pt-32 pb-24">
+    <p class="eyebrow mb-4">404</p>
+    <h1 class="text-3xl font-medium tracking-tight text-primary md:text-5xl">Nothing here.</h1>
+    <p class="mt-4 max-w-md text-secondary">
+      The page may have moved, or the link was wrong. Everything on this site is one click from the
+      home page.
+    </p>
+    <div class="mt-8">
+      <a href={withBase('/')} class="btn btn-primary">Back to Scalar</a>
+    </div>
+  </section>
+</Base>
