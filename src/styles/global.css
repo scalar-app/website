@@ -91,8 +91,17 @@
     padding-inline: var(--sc-space-6);
   }
 
+  /* Reading width is applied to the text itself rather than to the wrapper, so a full
+     width block such as a card grid can sit in the same article without being boxed
+     into the measure. */
   .prose-sc {
     color: var(--sc-color-text-secondary);
+  }
+  .prose-sc > p:not(.not-prose),
+  .prose-sc > ul:not(.not-prose),
+  .prose-sc > ol:not(.not-prose),
+  .prose-sc > h2:not(.not-prose),
+  .prose-sc > h3:not(.not-prose) {
     max-width: 44rem;
   }
   .prose-sc h2 {
@@ -133,6 +142,16 @@
   .prose-sc strong {
     color: var(--sc-color-text-primary);
     font-weight: 500;
+  }
+
+  /* Blocks marked .not-prose are laid out with utilities, so the article's own spacing
+     and list rules must stop at their edge. Without this a heading inside a card still
+     collects the margin meant for a heading in running text. */
+  .prose-sc .not-prose :is(h1, h2, h3, h4, p, ul, ol, li) {
+    margin: 0;
+    max-width: none;
+    list-style: none;
+    padding-left: 0;
   }
 
   .eyebrow {
@@ -209,6 +228,204 @@
     color: var(--sc-color-yellow);
     border-color: color-mix(in srgb, var(--sc-color-yellow) 40%, transparent);
   }
+
+  /* Buttons get a moving highlight on hover. The pseudo element is clipped by the
+     button's own radius, so nothing escapes the shape. */
+  .btn {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      110deg,
+      transparent 25%,
+      color-mix(in srgb, white 14%, transparent) 50%,
+      transparent 75%
+    );
+    transform: translateX(-120%);
+    transition: transform 620ms var(--sc-ease);
+  }
+  .btn:hover::after {
+    transform: translateX(120%);
+  }
+  .btn-primary {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--sc-color-yellow) 55%, transparent),
+      0 8px 30px -10px color-mix(in srgb, var(--sc-color-yellow) 45%, transparent);
+  }
+  .btn-primary:hover {
+    box-shadow:
+      0 0 0 1px var(--sc-color-yellow),
+      0 12px 40px -10px color-mix(in srgb, var(--sc-color-yellow) 60%, transparent);
+  }
+  .btn-lg {
+    height: 46px;
+    padding-inline: var(--sc-space-6);
+    font-size: var(--sc-font-size-lg);
+  }
+
+  /* A single surface treatment for every card on the site, so panels, list rows and
+     link tiles read as the same material. */
+  .surface-card {
+    position: relative;
+    border: 1px solid var(--sc-color-border);
+    border-radius: var(--sc-radius-xl);
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--sc-color-surface-raised) 92%, transparent),
+      var(--sc-color-surface)
+    );
+    transition:
+      border-color var(--sc-motion-base) var(--sc-ease),
+      transform var(--sc-motion-base) var(--sc-ease);
+  }
+  /* The hairline along the top edge is what makes a flat panel read as lit from above. */
+  .surface-card::before {
+    content: '';
+    position: absolute;
+    inset-inline: 1px;
+    top: 0;
+    height: 1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, white 12%, transparent),
+      transparent
+    );
+    pointer-events: none;
+  }
+  .surface-card:hover {
+    border-color: color-mix(in srgb, var(--sc-color-text-muted) 55%, transparent);
+  }
+
+  /* Cursor-tracked highlight. `motion.mjs` writes --mx and --my; with no script the
+     card is simply a card. */
+  .spotlight::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--sc-motion-slow) var(--sc-ease);
+    background: radial-gradient(
+      380px circle at var(--mx, 50%) var(--my, 50%),
+      color-mix(in srgb, var(--sc-color-yellow) 10%, transparent),
+      transparent 65%
+    );
+  }
+  .spotlight:hover::after {
+    opacity: 1;
+  }
+
+  /* A sheen down the headline, not a fade to grey. The end stop stays close to the
+     primary text colour: any dimmer and a wrapped line reads as a different colour
+     from the line above it, which looks like a mistake rather than a treatment. */
+  .gradient-text {
+    background: linear-gradient(
+      180deg,
+      var(--sc-color-text-primary) 35%,
+      color-mix(in srgb, var(--sc-color-text-primary) 80%, var(--sc-color-background))
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* The wash behind the hero. Fixed size and blurred, never interactive. */
+  .aurora {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(90px);
+    opacity: 0.5;
+    background: radial-gradient(
+      closest-side,
+      color-mix(in srgb, var(--sc-color-yellow) 34%, transparent),
+      transparent
+    );
+    animation: sc-drift 18s var(--sc-ease) infinite alternate;
+  }
+
+  /* A grid that fades out toward the edges, so the hero sits on something. */
+  .grid-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, color-mix(in srgb, white 4%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in srgb, white 4%, transparent) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 20%, transparent 75%);
+  }
+
+  .rule-glow {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--sc-color-yellow) 45%, transparent),
+      transparent
+    );
+  }
+
+  /* The small screen navigation. A <details> so it works with no script at all. */
+  .nav-disclosure summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--sc-radius-md);
+    border: 1px solid var(--sc-color-border);
+    color: var(--sc-color-text-secondary);
+    cursor: pointer;
+    list-style: none;
+  }
+  .nav-disclosure summary::-webkit-details-marker {
+    display: none;
+  }
+  .nav-disclosure[open] summary {
+    color: var(--sc-color-text-primary);
+    border-color: var(--sc-color-text-muted);
+  }
+  .nav-disclosure-panel {
+    position: absolute;
+    right: var(--sc-space-6);
+    top: calc(100% - var(--sc-space-2));
+    z-index: 10;
+    min-width: 12rem;
+    background: var(--sc-color-surface);
+    box-shadow: 0 24px 60px -30px rgb(0 0 0 / 0.9);
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-space-2);
+    height: 30px;
+    padding-inline: var(--sc-space-3);
+    border-radius: var(--sc-radius-full);
+    border: 1px solid var(--sc-color-border);
+    background: color-mix(in srgb, var(--sc-color-surface) 70%, transparent);
+    backdrop-filter: blur(8px);
+    font-size: var(--sc-font-size-sm);
+    color: var(--sc-color-text-secondary);
+    text-decoration: none;
+  }
+  .pill:hover {
+    border-color: color-mix(in srgb, var(--sc-color-yellow) 45%, transparent);
+    color: var(--sc-color-text-primary);
+  }
 }
 
 @layer utilities {
@@ -222,5 +439,73 @@
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
     background-size: 160px 160px;
+  }
+
+  /* Scroll reveal. Elements start displaced and are released by motion.mjs adding
+     [data-revealed]. If the script never runs, the fallback below keeps everything
+     visible rather than blank. */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 700ms var(--sc-ease),
+      transform 700ms var(--sc-ease);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  [data-reveal][data-revealed] {
+    opacity: 1;
+    transform: none;
+  }
+  html:not(.js) [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .marquee {
+    display: flex;
+    overflow: hidden;
+    mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  }
+  .marquee > * {
+    display: flex;
+    flex: none;
+    gap: var(--sc-space-8);
+    padding-right: var(--sc-space-8);
+    animation: sc-marquee 42s linear infinite;
+  }
+  .marquee:hover > * {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes sc-drift {
+  from {
+    transform: translate3d(-4%, -2%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(4%, 3%, 0) scale(1.12);
+  }
+}
+
+@keyframes sc-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Reduced motion is handled in the base layer for transitions; these are the
+   long running decorative animations, stopped outright. */
+@media (prefers-reduced-motion: reduce) {
+  .aurora,
+  .marquee > * {
+    animation: none !important;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

@@ -23,6 +23,26 @@ const steps = [
   },
 ];
 
+const proof = [
+  { label: 'Licence', value: 'AGPL-3.0' },
+  { label: 'Hosting', value: 'Self-hosted' },
+  { label: 'Platforms', value: 'Web, desktop, mobile' },
+  { label: 'Telemetry', value: 'Off by default' },
+];
+
+const marquee = [
+  'Gmail',
+  'Outlook',
+  'Google Calendar',
+  'Canvas LMS',
+  'iCloud Calendar',
+  'CalDAV',
+  'IMAP',
+  'Google Drive',
+  'Notion',
+  'Todoist',
+];
+
 const community = [
   { label: 'Discussions', href: github.discussions, body: 'Questions, ideas and show-and-tell.' },
   {
@@ -44,22 +64,73 @@ const community = [
   description="Scalar is an open-source operating system for attention. It connects email, calendar, courses, tasks and files into one action layer."
   path="/"
 >
-  <section class="container-sc pt-24 pb-20 md:pt-36 md:pb-28">
-    <p class="eyebrow mb-6">Open source · AGPL-3.0 · in development</p>
-    <h1
-      class="max-w-3xl text-4xl font-medium tracking-tight text-primary md:text-6xl md:leading-[1.05]"
-    >
-      Everything demanding your attention.
-      <span class="block text-secondary">One system for handling it.</span>
-    </h1>
-    <p class="mt-6 max-w-xl text-lg text-secondary">
-      Scalar connects your email, calendar, courses, tasks and files, then turns them into a single
-      plan you can act on.
-    </p>
-    <div class="mt-10 flex flex-wrap items-center gap-3">
-      <a href={withBase('/download')} class="btn btn-primary">Get started</a>
-      <a href={github.org} class="btn" rel="noopener">GitHub</a>
+  <section class="relative overflow-hidden">
+    <div class="grid-backdrop"></div>
+    <div class="aurora left-1/2 h-[520px] w-[820px] -translate-x-1/2 -top-64"></div>
+
+    <div class="container-sc relative z-10 pt-20 pb-24 md:pt-32 md:pb-32">
+      <div data-reveal>
+        <a href={github.org} class="pill" rel="noopener">
+          <span class="status-light" data-tone="urgent"></span>
+          Open source, AGPL-3.0, in development
+        </a>
+      </div>
+
+      <h1
+        data-reveal
+        style="--reveal-delay: 80ms"
+        class="mt-8 max-w-4xl text-[2.75rem] leading-[1.02] font-medium tracking-[-0.03em] text-balance md:text-7xl"
+      >
+        <span class="gradient-text">Everything demanding your attention.</span>
+        <span class="mt-2 block text-secondary">One system for handling it.</span>
+      </h1>
+
+      <p
+        data-reveal
+        style="--reveal-delay: 160ms"
+        class="mt-7 max-w-xl text-lg text-secondary md:text-xl"
+      >
+        Scalar connects your email, calendar, courses, tasks and files, then turns them into a
+        single plan you can act on.
+      </p>
+
+      <div
+        data-reveal
+        style="--reveal-delay: 240ms"
+        class="mt-10 flex flex-wrap items-center gap-3"
+      >
+        <a href={withBase('/download')} class="btn btn-primary btn-lg">Get started</a>
+        <a href={github.org} class="btn btn-lg" rel="noopener">Read the source</a>
+      </div>
+
+      <dl
+        data-reveal
+        style="--reveal-delay: 320ms"
+        class="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-4"
+      >
+        {
+          proof.map((item) => (
+            <div class="bg-surface px-4 py-4">
+              <dt class="eyebrow">{item.label}</dt>
+              <dd class="mt-1.5 text-sm font-medium text-primary">{item.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
     </div>
+
+    <div class="marquee border-y border-border py-4">
+      <div aria-hidden="true">
+        {
+          [0, 1].map(() =>
+            marquee.map((name) => (
+              <span class="font-mono text-sm whitespace-nowrap text-muted">{name}</span>
+            )),
+          )
+        }
+      </div>
+    </div>
+    <p class="sr-only">Planned integrations: {marquee.join(', ')}.</p>
   </section>
 
   <Section
@@ -75,12 +146,14 @@ const community = [
   </Section>
 
   <Section id="how" eyebrow="How Scalar works" title="Connect. Understand. Act.">
-    <ol
-      class="grid gap-px overflow-hidden rounded-lg border border-border bg-border md:grid-cols-3"
-    >
+    <ol class="grid gap-4 md:grid-cols-3">
       {
-        steps.map((s) => (
-          <li class="bg-surface p-6 md:p-8">
+        steps.map((s, i) => (
+          <li
+            class="surface-card spotlight p-6 md:p-8"
+            data-reveal
+            style={`--reveal-delay: ${String(i * 90)}ms`}
+          >
             <p class="font-mono text-xs text-yellow">{s.n}</p>
             <h3 class="mt-3 text-lg font-medium text-primary">{s.title}</h3>
             <p class="mt-2 text-sm text-secondary">{s.body}</p>
@@ -98,10 +171,10 @@ const community = [
   >
     <div class="grid gap-8 md:grid-cols-3">
       {
-        phases.map((p) => (
-          <div>
+        phases.map((p, i) => (
+          <div class="surface-card p-5" data-reveal style={`--reveal-delay: ${String(i * 90)}ms`}>
             <h3 class="flex items-baseline gap-3 text-sm font-medium text-primary">{p.label}</h3>
-            <ul class="mt-3 divide-y divide-border border-y border-border">
+            <ul class="mt-3 divide-y divide-border border-t border-border">
               {p.integrations.map((i) => (
                 <li class="flex items-center justify-between gap-3 py-2 text-sm">
                   <span class="text-secondary">{i.name}</span>
@@ -131,22 +204,20 @@ const community = [
     title="Built with students first."
     lede="Canvas courses become Spaces. Assignments get an estimated effort and are scheduled as blocks around your classes. Study time is planned, not guessed."
   >
-    <ul
-      class="grid gap-px overflow-hidden rounded-lg border border-border bg-border md:grid-cols-3"
-    >
-      <li class="bg-surface p-6">
+    <ul class="grid gap-4 md:grid-cols-3">
+      <li class="surface-card spotlight p-6">
         <h3 class="text-sm font-medium text-primary">Courses as Spaces</h3>
         <p class="mt-2 text-sm text-secondary">
           Each course gets its own Space with assignments, files, announcements and notes.
         </p>
       </li>
-      <li class="bg-surface p-6">
+      <li class="surface-card spotlight p-6">
         <h3 class="text-sm font-medium text-primary">Effort estimates</h3>
         <p class="mt-2 text-sm text-secondary">
           Assignments are sized from their description and your history so plans stay realistic.
         </p>
       </li>
-      <li class="bg-surface p-6">
+      <li class="surface-card spotlight p-6">
         <h3 class="text-sm font-medium text-primary">Scheduled blocks</h3>
         <p class="mt-2 text-sm text-secondary">
           Work is placed on your calendar as focus blocks you can accept, move or reject.
@@ -184,10 +255,10 @@ const community = [
           must be shared back.
         </li>
       </ul>
-      <ul class="divide-y divide-border border-y border-border text-sm">
+      <ul class="surface-card divide-y divide-border overflow-hidden text-sm">
         {
           github.repos.map((r) => (
-            <li class="flex items-center justify-between gap-4 py-2.5">
+            <li class="flex items-center justify-between gap-4 px-4 py-2.5">
               <a
                 href={r.url}
                 class="font-mono text-primary no-underline hover:text-yellow"
@@ -207,7 +278,7 @@ const community = [
     id="download"
     eyebrow="Download"
     title="Where things stand."
-    lede="The web app is in development. Desktop and mobile apps are planned after the web app is usable day to day."
+    lede="The web app is in development. The desktop shell builds on macOS, Windows and Linux, and the mobile targets share its code but have not been built yet. Nothing is packaged for download."
   >
     <div class="flex flex-wrap gap-3">
       <a href={withBase('/download')} class="btn btn-primary">Download page</a>
@@ -216,13 +287,15 @@ const community = [
   </Section>
 
   <Section id="community" eyebrow="Community" title="Follow along or help build it.">
-    <ul
-      class="grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 md:grid-cols-4"
-    >
+    <ul class="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
       {
-        community.map((c) => (
-          <li class="bg-surface">
-            <a href={c.href} class="block h-full p-6 no-underline hover:bg-raised" rel="noopener">
+        community.map((c, i) => (
+          <li
+            class="surface-card spotlight"
+            data-reveal
+            style={`--reveal-delay: ${String(i * 70)}ms`}
+          >
+            <a href={c.href} class="block h-full p-6 no-underline" rel="noopener">
               <span class="block text-sm font-medium text-primary">{c.label}</span>
               <span class="mt-2 block text-sm text-secondary">{c.body}</span>
             </a>

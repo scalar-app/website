@@ -1,19 +1,14 @@
 ---
-/** Static rendering of the Today screen described in the product spec. Not a live component. */
+/**
+ * Static rendering of the Today screen described in the product spec. Not a live component.
+ *
+ * This is the only picture of the product on the site, so it is built from the same surface,
+ * border and type treatments as the rest of the page rather than being a separate style.
+ */
 const urgent = [
-  { time: '11:59 PM', title: 'CS 2110 Problem Set 4', meta: 'Canvas · due today', tone: 'urgent' },
-  {
-    time: '02:00 PM',
-    title: 'Reply to Prof. Alvarez re: extension',
-    meta: 'Gmail · waiting 2d',
-    tone: 'urgent',
-  },
-  {
-    time: '05:00 PM',
-    title: 'Confirm lab partner for Thursday',
-    meta: 'Gmail · thread',
-    tone: 'urgent',
-  },
+  { time: '11:59 PM', title: 'CS 2110 Problem Set 4', meta: 'Canvas · due today' },
+  { time: '02:00 PM', title: 'Reply to Prof. Alvarez re: extension', meta: 'Gmail · waiting 2d' },
+  { time: '05:00 PM', title: 'Confirm lab partner for Thursday', meta: 'Gmail · thread' },
 ];
 const upcoming = [
   { time: '10:00 AM', title: 'Linear Algebra lecture', meta: 'Google Calendar · Bell 201' },
@@ -21,102 +16,135 @@ const upcoming = [
   { time: '04:30 PM', title: 'Office hours', meta: 'Canvas · optional' },
 ];
 const plan = [
-  { time: '08:30 AM', span: '90 min', title: 'Problem Set 4, sections 1 to 3' },
-  { time: '11:30 AM', span: '20 min', title: 'Reply to two emails' },
-  { time: '02:30 PM', span: '60 min', title: 'Problem Set 4, finish and submit' },
+  { time: '08:30 AM', span: '90 min', title: 'Problem Set 4, sections 1 to 3', state: 'done' },
+  { time: '11:30 AM', span: '20 min', title: 'Reply to two emails', state: 'now' },
+  { time: '02:30 PM', span: '60 min', title: 'Problem Set 4, finish and submit', state: 'next' },
 ];
 ---
 
-<div
-  class="rounded-xl border border-border bg-surface shadow-[0_0_0_1px_rgba(255,255,255,0.02),0_30px_80px_-40px_rgba(0,0,0,0.9)]"
-  role="img"
-  aria-label="Illustration of the Scalar Today screen: greeting, three urgent items, upcoming events and a suggested plan."
->
-  <div class="flex items-center gap-2 border-b border-border px-4 py-2.5">
-    <span class="h-2 w-2 rounded-full bg-border"></span>
-    <span class="h-2 w-2 rounded-full bg-border"></span>
-    <span class="h-2 w-2 rounded-full bg-border"></span>
-    <span class="ml-3 font-mono text-[11px] text-muted">Today</span>
+<div class="relative">
+  <!-- A soft wash behind the panel so it lifts off the page instead of sitting flat on it. -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 -top-6 bottom-8 -z-10 rounded-[2rem] opacity-60 blur-3xl"
+    style="background: radial-gradient(60% 50% at 50% 0%, color-mix(in srgb, var(--sc-color-yellow) 14%, transparent), transparent 70%);"
+  >
   </div>
 
-  <div class="grid gap-8 p-6 md:grid-cols-[1.1fr_1fr] md:p-8" aria-hidden="true">
-    <div>
-      <p class="text-lg text-primary md:text-xl">Good morning.</p>
-      <p class="text-secondary">Tuesday, August 18.</p>
-      <p class="mt-3 text-primary">
-        <span class="text-yellow">3 things</span> need your attention.
-      </p>
-
-      <h3 class="eyebrow mt-8 mb-3">Urgent</h3>
-      <ul class="divide-y divide-border border-y border-border">
-        {
-          urgent.map((i) => (
-            <li class="flex items-start gap-3 py-2.5">
-              <span class="status-light mt-2" data-tone={i.tone} />
-              <span class="w-[7.5ch] shrink-0 pt-px font-mono text-xs text-muted tabular-nums">
-                {i.time}
-              </span>
-              <span class="min-w-0">
-                <span class="block truncate text-sm text-primary">{i.title}</span>
-                <span class="block text-xs text-muted">{i.meta}</span>
-              </span>
-            </li>
-          ))
-        }
-      </ul>
+  <div
+    class="surface-card overflow-hidden shadow-[0_40px_120px_-50px_rgba(0,0,0,0.95)]"
+    role="img"
+    aria-label="Illustration of the Scalar Today screen: a greeting, three urgent items, upcoming events and a suggested plan for the day."
+  >
+    <div class="flex items-center gap-2 border-b border-border px-4 py-3">
+      <span class="h-2.5 w-2.5 rounded-full bg-border"></span>
+      <span class="h-2.5 w-2.5 rounded-full bg-border"></span>
+      <span class="h-2.5 w-2.5 rounded-full bg-border"></span>
+      <span class="ml-3 font-mono text-[11px] text-muted">Today</span>
+      <span class="ml-auto font-mono text-[11px] text-muted">Tue 18 Aug</span>
     </div>
 
-    <div class="space-y-8">
-      <div>
-        <h3 class="eyebrow mb-3">Upcoming</h3>
-        <ul class="divide-y divide-border border-y border-border">
+    <div class="grid gap-x-10 gap-y-8 p-6 md:grid-cols-[1.05fr_1fr] md:p-8" aria-hidden="true">
+      <div class="flex flex-col">
+        <p class="text-xl font-medium tracking-[-0.01em] text-primary">Good morning.</p>
+
+        <p class="mt-5 flex items-baseline gap-2.5">
+          <span class="text-4xl leading-none font-medium tracking-[-0.02em] text-yellow">3</span>
+          <span class="text-sm text-secondary">things need your attention</span>
+        </p>
+
+        <h3 class="eyebrow mt-8 mb-1">Urgent</h3>
+        <ul class="divide-y divide-border">
           {
-            upcoming.map((i) => (
-              <li class="flex items-start gap-3 py-2.5">
-                <span class="status-light mt-2" data-tone="ok" />
-                <span class="w-[7.5ch] shrink-0 pt-px font-mono text-xs text-muted tabular-nums">
-                  {i.time}
+            urgent.map((item) => (
+              <li class="flex items-start gap-3 py-3">
+                <span class="status-light mt-1.5" data-tone="urgent" />
+                <span class="w-[4.75rem] shrink-0 font-mono text-[11px] whitespace-nowrap text-muted tabular-nums">
+                  {item.time}
                 </span>
                 <span class="min-w-0">
-                  <span class="block truncate text-sm text-primary">{i.title}</span>
-                  <span class="block text-xs text-muted">{i.meta}</span>
+                  <span class="block truncate text-sm text-primary">{item.title}</span>
+                  <span class="mt-0.5 block text-xs text-muted">{item.meta}</span>
                 </span>
               </li>
             ))
           }
         </ul>
+
+        <!-- Fills the column and says what the product is for: not a list, a next action. -->
+        <div class="mt-auto pt-6">
+          <div class="rounded-lg border border-border bg-raised p-4">
+            <div class="flex items-center justify-between">
+              <span class="eyebrow">Now</span>
+              <span class="font-mono text-[11px] text-muted tabular-nums">12 min left</span>
+            </div>
+            <p class="mt-2 text-sm text-primary">Reply to two emails</p>
+            <div class="mt-3 h-1 overflow-hidden rounded-full bg-border">
+              <div class="h-full w-2/5 rounded-full bg-yellow"></div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div>
-        <div class="mb-3 flex items-center justify-between">
-          <h3 class="eyebrow">Suggested plan</h3>
-          <span class="flex items-center gap-1.5 font-mono text-[11px] text-yellow">
-            <span class="status-light" data-tone="urgent"></span>
-            drafted
-          </span>
+      <div class="flex flex-col gap-8">
+        <div>
+          <h3 class="eyebrow mb-1">Upcoming</h3>
+          <ul class="divide-y divide-border">
+            {
+              upcoming.map((item) => (
+                <li class="flex items-start gap-3 py-3">
+                  <span class="status-light mt-1.5" data-tone="ok" />
+                  <span class="w-[4.75rem] shrink-0 font-mono text-[11px] whitespace-nowrap text-muted tabular-nums">
+                    {item.time}
+                  </span>
+                  <span class="min-w-0">
+                    <span class="block truncate text-sm text-primary">{item.title}</span>
+                    <span class="mt-0.5 block text-xs text-muted">{item.meta}</span>
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
         </div>
-        <ul class="divide-y divide-border border-y border-border">
-          {
-            plan.map((i) => (
-              <li class="flex items-start gap-3 py-2.5">
-                <span class="w-[7.5ch] shrink-0 pt-px font-mono text-xs text-muted tabular-nums">
-                  {i.time}
-                </span>
-                <span class="min-w-0 flex-1">
-                  <span class="block truncate text-sm text-primary">{i.title}</span>
-                </span>
-                <span class="font-mono text-xs text-muted tabular-nums">{i.span}</span>
-              </li>
-            ))
-          }
-        </ul>
-        <div class="mt-3 flex gap-2">
-          <span class="rounded-md bg-yellow px-2.5 py-1 text-xs font-medium text-yellow-fg"
-            >Accept plan</span
-          >
-          <span class="rounded-md border border-border px-2.5 py-1 text-xs text-secondary"
-            >Adjust</span
-          >
+
+        <div class="mt-auto">
+          <div class="mb-1 flex items-center justify-between">
+            <h3 class="eyebrow">Suggested plan</h3>
+            <span class="flex items-center gap-1.5 font-mono text-[11px] text-yellow">
+              <span class="status-light" data-tone="urgent"></span>
+              drafted
+            </span>
+          </div>
+          <ul class="divide-y divide-border">
+            {
+              plan.map((item) => (
+                <li class="flex items-center gap-3 py-3">
+                  <span class="w-[4.75rem] shrink-0 font-mono text-[11px] whitespace-nowrap text-muted tabular-nums">
+                    {item.time}
+                  </span>
+                  <span class="min-w-0 flex-1">
+                    <span
+                      class:list={[
+                        'block truncate text-sm',
+                        item.state === 'done' ? 'text-muted line-through' : 'text-primary',
+                      ]}
+                    >
+                      {item.title}
+                    </span>
+                  </span>
+                  <span class="font-mono text-[11px] text-muted tabular-nums">{item.span}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <div class="mt-4 flex gap-2">
+            <span class="rounded-md bg-yellow px-3 py-1.5 text-xs font-medium text-yellow-fg"
+              >Accept plan</span
+            >
+            <span class="rounded-md border border-border px-3 py-1.5 text-xs text-secondary"
+              >Adjust</span
+            >
+          </div>
         </div>
       </div>
     </div>

@@ -17,10 +17,16 @@ function isActive(href: string): boolean {
   const target = withBase(href).replace(/\/$/, '');
   return current.replace(/\/$/, '') === target;
 }
+
+const linkClass =
+  'relative rounded-md px-3 py-1.5 text-secondary no-underline transition-colors hover:text-primary aria-[current=page]:text-primary';
 ---
 
-<header class="sticky top-0 z-[100] border-b border-border bg-bg/85 backdrop-blur-sm">
-  <div class="container-sc flex h-14 items-center justify-between gap-6">
+<header
+  data-header
+  class="sticky top-0 z-[100] border-b border-transparent bg-bg/60 backdrop-blur-md transition-colors duration-300 data-[scrolled]:border-border data-[scrolled]:bg-bg/85"
+>
+  <div class="container-sc relative flex h-16 items-center justify-between gap-6">
     <a
       href={withBase('/')}
       class="flex items-center gap-2.5 text-primary no-underline"
@@ -40,7 +46,7 @@ function isActive(href: string): boolean {
       <span class="text-[15px] font-semibold tracking-tight">Scalar</span>
     </a>
 
-    <nav aria-label="Primary">
+    <nav aria-label="Primary" class="hidden md:block">
       <ul class="flex items-center gap-1 text-sm">
         {
           nav.map((item) => (
@@ -48,23 +54,58 @@ function isActive(href: string): boolean {
               <a
                 href={withBase(item.href)}
                 aria-current={isActive(item.href) ? 'page' : undefined}
-                class="rounded-md px-3 py-1.5 text-secondary no-underline hover:text-primary aria-[current=page]:text-primary"
+                class={linkClass}
               >
                 {item.label}
               </a>
             </li>
           ))
         }
-        <li>
-          <a
-            href={github.org}
-            class="rounded-md px-3 py-1.5 text-secondary no-underline hover:text-primary"
-            rel="noopener"
-          >
+        <li class="ml-2">
+          <a href={github.org} class="pill" rel="noopener">
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor" aria-hidden="true">
+              <path
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+              ></path>
+            </svg>
             GitHub<span class="sr-only"> (opens scalar-app organization)</span>
           </a>
         </li>
       </ul>
     </nav>
+
+    <!-- A disclosure rather than a scripted menu: it opens and closes on its own, so the
+         navigation still works if the motion script never loads. -->
+    <details class="nav-disclosure md:hidden">
+      <summary aria-label="Menu">
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+          <path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.5"></path>
+        </svg>
+      </summary>
+      <nav aria-label="Primary" class="nav-disclosure-panel surface-card">
+        <ul class="flex flex-col p-2 text-sm">
+          {
+            nav.map((item) => (
+              <li>
+                <a
+                  href={withBase(item.href)}
+                  aria-current={isActive(item.href) ? 'page' : undefined}
+                  class="block rounded-md px-3 py-2.5 text-secondary no-underline hover:bg-raised hover:text-primary aria-[current=page]:text-primary"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+          <li class="mt-1 border-t border-border pt-1">
+            <a
+              href={github.org}
+              class="block rounded-md px-3 py-2.5 text-secondary no-underline hover:bg-raised hover:text-primary"
+              rel="noopener">GitHub</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </details>
   </div>
 </header>

@@ -12,15 +12,31 @@ export function withBase(path: string, base: string = import.meta.env.BASE_URL):
 
 export const github = {
   org: 'https://github.com/scalar-app',
-  releases: 'https://github.com/scalar-app/web/releases',
+  releases: 'https://github.com/scalar-app/desktop/releases',
   discussions: 'https://github.com/orgs/scalar-app/discussions',
   contributing: 'https://github.com/scalar-app/.github/blob/main/CONTRIBUTING.md',
   security: 'https://github.com/scalar-app/.github/blob/main/SECURITY.md',
   roadmap: 'https://github.com/orgs/scalar-app/projects',
   docs: 'https://github.com/scalar-app/docs',
   repos: [
-    { name: 'web', url: 'https://github.com/scalar-app/web', what: 'Web application (React)' },
+    { name: 'web', url: 'https://github.com/scalar-app/web', what: 'Web application (Next.js)' },
     { name: 'api', url: 'https://github.com/scalar-app/api', what: 'HTTP API and data layer' },
+    {
+      name: 'worker',
+      url: 'https://github.com/scalar-app/worker',
+      what: 'Background jobs and sync',
+    },
+    {
+      name: 'integrations',
+      url: 'https://github.com/scalar-app/integrations',
+      what: 'Provider connectors',
+    },
+    { name: 'ai', url: 'https://github.com/scalar-app/ai', what: 'Command loop and tools' },
+    {
+      name: 'desktop',
+      url: 'https://github.com/scalar-app/desktop',
+      what: 'Native shell (Tauri)',
+    },
     {
       name: 'sdk',
       url: 'https://github.com/scalar-app/sdk',

@@ -31,20 +31,24 @@ const platforms = [
   eyebrow="Download"
   lede="Scalar is early. There are no packaged releases yet. Here is what exists, what is planned, and how to run it yourself now."
 >
-  <ul class="not-prose mt-10 grid gap-px overflow-hidden rounded-lg border border-border bg-border">
+  <ul class="not-prose mt-10 grid list-none gap-4 p-0">
     {
       platforms.map((p) => (
-        <li class="flex flex-col gap-2 bg-surface p-6 sm:flex-row sm:items-start sm:justify-between">
+        <li class="surface-card spotlight m-0 flex flex-col gap-3 p-6 sm:flex-row sm:items-start sm:justify-between">
           <div class="max-w-xl">
             <h2 class="text-sm font-medium text-primary">{p.name}</h2>
-            <p class="mt-1 text-sm text-secondary">{p.body}</p>
+            <p class="mt-1.5 text-sm text-secondary">{p.body}</p>
             {p.href && (
-              <a href={p.href} class="mt-2 inline-block text-sm text-primary" rel="noopener">
+              <a
+                href={p.href}
+                class="mt-3 inline-block text-sm text-primary underline decoration-border underline-offset-4 hover:decoration-yellow"
+                rel="noopener"
+              >
                 Source on GitHub
               </a>
             )}
           </div>
-          <span class="shrink-0 text-xs text-muted">{p.status}</span>
+          <span class="tag shrink-0">{p.status}</span>
         </li>
       ))
     }

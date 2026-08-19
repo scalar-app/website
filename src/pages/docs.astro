@@ -43,19 +43,11 @@ const sections = [
   eyebrow="Documentation"
   lede="Documentation is written in Markdown and lives in a public repository so it can be reviewed and versioned like code."
 >
-  <ul
-    class="not-prose mt-10 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2"
-    style="list-style:none;padding:0"
-  >
+  <ul class="not-prose mt-10 grid list-none gap-4 p-0 sm:grid-cols-2">
     {
       sections.map((s) => (
-        <li class="bg-surface" style="margin:0">
-          <a
-            href={s.href}
-            class="block h-full p-6 no-underline hover:bg-raised"
-            rel="noopener"
-            style="text-decoration:none"
-          >
+        <li class="surface-card spotlight m-0">
+          <a href={s.href} class="block h-full p-6 no-underline" rel="noopener">
             <span class="block text-sm font-medium text-primary">{s.title}</span>
             <span class="mt-2 block text-sm text-secondary">{s.body}</span>
           </a>

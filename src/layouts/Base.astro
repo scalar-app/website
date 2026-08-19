@@ -22,6 +22,18 @@ const ogImage = publicFileExists('og.png') ? new URL(withBase('/og.png'), Astro.
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <!-- Set before the stylesheet applies, so reveal targets are only hidden when
+         there is a script able to show them again. The timer is the failsafe: if the
+         motion module fails to load or never runs, the class is dropped and the CSS
+         falls back to showing everything, rather than leaving the page blank. -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      setTimeout(function () {
+        if (!document.documentElement.hasAttribute('data-motion-ready')) {
+          document.documentElement.classList.remove('js');
+        }
+      }, 1200);
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -55,5 +67,8 @@ const ogImage = publicFileExists('og.png') ? new URL(withBase('/og.png'), Astro.
       <slot />
     </main>
     <Footer />
+    <script>
+      import '../scripts/motion.mjs';
+    </script>
   </body>
 </html>

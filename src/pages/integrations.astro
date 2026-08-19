@@ -16,9 +16,9 @@ import { phases, statusLabel } from '../lib/integrations';
       <section id={phase.id} class="not-prose mt-12 scroll-mt-20 first:mt-10">
         <h2 class="text-xl font-medium tracking-tight text-primary">{phase.label}</h2>
         <p class="mt-2 max-w-2xl text-sm text-secondary">{phase.summary}</p>
-        <ul class="mt-6 grid gap-px overflow-hidden rounded-lg border border-border bg-border md:grid-cols-2">
+        <ul class="mt-6 grid list-none gap-4 p-0 md:grid-cols-2">
           {phase.integrations.map((integration) => (
-            <li class="bg-surface p-6">
+            <li class="surface-card spotlight m-0 p-6">
               <div class="flex items-center justify-between gap-4">
                 <h3 class="text-sm font-medium text-primary">{integration.name}</h3>
                 <span class="flex items-center gap-2 text-xs text-muted">
