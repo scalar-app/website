@@ -43,7 +43,7 @@ public/                      logo, generated icons, og image, robots.txt
 
 ## Logo
 
-`public/scalar.png` is the source logo (yellow S mark on black, 1254px). Derived assets are generated from it and committed: `scalar-mark.png` (transparent mark for the header), `favicon.png`, `icon-192.png`, `icon-512.png`, `og.png`. To regenerate after a logo change, run a small sharp script (Astro ships sharp) that trims the source, pads it with its own background color and resizes; the header and OpenGraph tags pick the files up automatically when they exist at build time.
+`public/scalar.png` is the source logo (yellow S mark, 1254px, transparent background). Derived assets are generated from it and committed: `scalar-mark.png` (trimmed mark for the header), `favicon.png`, `icon-192.png`, `icon-512.png` and `og.png`. All of them keep the transparent background except `og.png`, which is composited over `#080808` because social clients render transparency unpredictably. The header and OpenGraph tags pick the files up automatically when they exist at build time.
 
 ## Design tokens
 
